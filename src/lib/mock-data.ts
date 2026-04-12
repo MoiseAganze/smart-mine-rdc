@@ -690,3 +690,714 @@ export const provinceData = [
   { province: "Maniema", transports: 15, tonnes: 3800 },
   { province: "Sud-Kivu", transports: 12, tonnes: 2100 },
 ];
+
+// ── AI Chat Data ─────────────────────────────────────────
+
+export type AIStatColor =
+  | "red"
+  | "green"
+  | "orange"
+  | "blue"
+  | "yellow"
+  | "purple";
+
+export type AIContentBlock =
+  | { type: "text"; content: string }
+  | {
+      type: "stats";
+      items: {
+        label: string;
+        value: string;
+        sub?: string;
+        color: AIStatColor;
+      }[];
+    }
+  | { type: "table"; headers: string[]; rows: string[][] }
+  | { type: "list"; items: { icon: string; text: string; sub?: string }[] };
+
+export interface AISuggestedQuery {
+  id: string;
+  label: string;
+  query: string;
+  icon: string;
+  category: string;
+}
+
+export interface AIScriptedResponse {
+  triggers: string[];
+  blocks: AIContentBlock[];
+  delay: number;
+}
+
+export const aiSuggestedQueries: AISuggestedQuery[] = [
+  {
+    id: "q1",
+    label: "Résumé opérationnel",
+    query: "Donne-moi le résumé de la situation actuelle",
+    icon: "📊",
+    category: "general",
+  },
+  {
+    id: "q2",
+    label: "Convois en transit",
+    query: "Quels convois sont actuellement en route ?",
+    icon: "🚚",
+    category: "transport",
+  },
+  {
+    id: "q3",
+    label: "Alertes critiques",
+    query: "Montre-moi les alertes critiques non résolues",
+    icon: "🔴",
+    category: "alert",
+  },
+  {
+    id: "q4",
+    label: "Retards & Anomalies",
+    query: "Quels sont les retards et anomalies en cours ?",
+    icon: "⚠️",
+    category: "transport",
+  },
+  {
+    id: "q5",
+    label: "Répartition minerais",
+    query: "Donne-moi la répartition des minerais ce mois",
+    icon: "💎",
+    category: "mineral",
+  },
+  {
+    id: "q6",
+    label: "État équipements GPS",
+    query: "Quel est l'état des équipements GPS en temps réel ?",
+    icon: "📡",
+    category: "equipment",
+  },
+  {
+    id: "q7",
+    label: "Détection fraudes",
+    query: "Y a-t-il des suspicions de fraude ou d'irrégularités ?",
+    icon: "🔍",
+    category: "fraud",
+  },
+  {
+    id: "q8",
+    label: "Performance mars 2024",
+    query: "Donne-moi les statistiques de performance de mars 2024",
+    icon: "📈",
+    category: "stats",
+  },
+];
+
+export const aiScriptedResponses: AIScriptedResponse[] = [
+  {
+    triggers: [
+      "résumé",
+      "situation",
+      "bonjour",
+      "aujourd",
+      "dashboard",
+      "bilan",
+      "overview",
+      "général",
+      "actuelle",
+    ],
+    delay: 1800,
+    blocks: [
+      {
+        type: "text",
+        content:
+          "Bonjour ! Voici l'état opérationnel **en temps réel** du 28 mars 2024 pour **SMART MINE RDC** :",
+      },
+      {
+        type: "stats",
+        items: [
+          {
+            label: "Transports actifs",
+            value: "7",
+            sub: "3 en route ce jour",
+            color: "blue",
+          },
+          {
+            label: "Tonnes tracées",
+            value: "71 500",
+            sub: "+13.1% vs février",
+            color: "green",
+          },
+          {
+            label: "Alertes ouvertes",
+            value: "5",
+            sub: "dont 1 critique",
+            color: "red",
+          },
+          {
+            label: "GPS actifs",
+            value: "6 / 10",
+            sub: "1 en panne · BGP-0512",
+            color: "orange",
+          },
+        ],
+      },
+      { type: "text", content: "**Points d'attention prioritaires :**" },
+      {
+        type: "list",
+        items: [
+          {
+            icon: "🔴",
+            text: "Convoi SM-2024-0893 — Cuivre 28t",
+            sub: "Déviation GPS de 45km détectée près de Kambove — enquête recommandée",
+          },
+          {
+            icon: "🟠",
+            text: "Véhicule CD 4521 KV immobilisé depuis 2h30",
+            sub: "Arrêt non autorisé · Route N1, Katanga — contact chauffeur requis",
+          },
+          {
+            icon: "🟠",
+            text: "Badge révoqué détecté — Checkpoint Kipushi",
+            sub: "Tentative d'accès avec badge BDG-0199 expiré · Identité inconnue",
+          },
+          {
+            icon: "🟡",
+            text: "GPS BGP-0512 hors ligne depuis 45 min",
+            sub: "Batterie critique 12% · Convoi SM-2024-0893 affecté",
+          },
+        ],
+      },
+      {
+        type: "text",
+        content:
+          "💡 *Recommandation : Contacter immédiatement le superviseur du convoi SM-2024-0893 et vérifier l'intégrité du chargement à la prochaine étape de contrôle.*",
+      },
+    ],
+  },
+  {
+    triggers: [
+      "convoi",
+      "transport",
+      "route",
+      "transit",
+      "en_route",
+      "véhicule",
+      "livraison",
+      "suivi",
+    ],
+    delay: 2200,
+    blocks: [
+      {
+        type: "text",
+        content:
+          "**3 convois sont actuellement en route** sur 7 enregistrés dans la base :",
+      },
+      {
+        type: "table",
+        headers: [
+          "Référence",
+          "Minéral",
+          "Progression",
+          "Transporteur",
+          "Statut",
+        ],
+        rows: [
+          [
+            "SM-2024-0891",
+            "Cobalt · 12.5t",
+            "65% ████████░░",
+            "GECAMINES Trans",
+            "⚠️ Immobilisé",
+          ],
+          [
+            "SM-2024-0894",
+            "Or · 45 kg",
+            "25% ███░░░░░░░",
+            "GoldSecure DRC",
+            "✅ Normal",
+          ],
+          [
+            "SM-2024-0897",
+            "Cobalt · 9.8t",
+            "50% █████░░░░░",
+            "GECAMINES Trans",
+            "✅ Normal",
+          ],
+        ],
+      },
+      {
+        type: "text",
+        content:
+          "⚠️ **Alerte active** sur SM-2024-0891 : le véhicule **CD 4521 KV** (Jean-Baptiste Mwamba) est immobilisé depuis **2h30** hors d'une zone autorisée · Route N1, Katanga.",
+      },
+      {
+        type: "text",
+        content:
+          "Le convoi **SM-2024-0893** (Cuivre, 28t) est **retardé** — livraison estimée repoussée au 29/03 à 12h00 (Beira via Zambie). GPS en panne sur ce convoi depuis 11h30.",
+      },
+    ],
+  },
+  {
+    triggers: [
+      "alerte",
+      "critique",
+      "urgence",
+      "anomalie",
+      "incident",
+      "problème",
+      "danger",
+      "non résolue",
+    ],
+    delay: 1500,
+    blocks: [
+      {
+        type: "text",
+        content:
+          "**5 alertes ouvertes** dans la base de données — analyse par niveau de priorité :",
+      },
+      {
+        type: "stats",
+        items: [
+          { label: "Critique", value: "1", sub: "non résolue", color: "red" },
+          { label: "Élevée", value: "3", sub: "non résolues", color: "orange" },
+          { label: "Moyenne", value: "1", sub: "non résolue", color: "yellow" },
+          { label: "Résolues", value: "2", sub: "ce jour", color: "green" },
+        ],
+      },
+      {
+        type: "list",
+        items: [
+          {
+            icon: "🔴",
+            text: "[CRITIQUE] Déviation GPS — SM-2024-0893",
+            sub: "45km hors itinéraire · Kambove, Haut-Katanga · 28/03 à 14:23",
+          },
+          {
+            icon: "🟠",
+            text: "[ÉLEVÉE] Arrêt non planifié — CD 4521 KV",
+            sub: "Immobilisé 2h30 hors zone autorisée · Route N1 · 28/03 à 12:45",
+          },
+          {
+            icon: "🟠",
+            text: "[ÉLEVÉE] Badge invalide expiré — BDG-0199",
+            sub: "Checkpoint Kipushi · Acteur inconnu · 28/03 à 10:05",
+          },
+          {
+            icon: "🟠",
+            text: "[ÉLEVÉE] Tentative d'accès système",
+            sub: "5 tentatives depuis IP 41.243.56.88 · 28/03 à 07:55",
+          },
+          {
+            icon: "🟡",
+            text: "[MOYENNE] GPS BGP-0512 hors ligne",
+            sub: "Dernière position : Lubudi · Batterie 12% · 28/03 à 11:30",
+          },
+        ],
+      },
+      {
+        type: "text",
+        content:
+          "💡 *L'anomalie de poids SM-2024-0892 (écart +2.3t, Coltan) a été résolue et archivée dans le journal d'audit. Historique conservé.*",
+      },
+    ],
+  },
+  {
+    triggers: [
+      "retard",
+      "retardé",
+      "délai",
+      "annulé",
+      "annulation",
+      "blocage",
+      "immobilisé",
+      "perturbation",
+    ],
+    delay: 1600,
+    blocks: [
+      {
+        type: "text",
+        content: "**Analyse des perturbations opérationnelles en cours :**",
+      },
+      {
+        type: "table",
+        headers: ["Convoi", "Minéral", "Cause principale", "Impact", "Retard"],
+        rows: [
+          [
+            "SM-2024-0893",
+            "Cuivre · 28t",
+            "Panne GPS + Déviation",
+            "🔴 Critique",
+            "+21h estimé",
+          ],
+          [
+            "SM-2024-0891",
+            "Cobalt · 12.5t",
+            "Arrêt non autorisé",
+            "🟠 Élevé",
+            "2h30 en attente",
+          ],
+          [
+            "SM-2024-0896",
+            "Wolframite · 1.8t",
+            "Convoi annulé",
+            "⚫ Annulé",
+            "N/A",
+          ],
+        ],
+      },
+      {
+        type: "text",
+        content:
+          "**Impact financier estimé :** Le retard du convoi SM-2024-0893 représente un risque sur **28 tonnes de cuivre** non livrées, estimées à **~147 000 USD** selon les cours actuels (LME).",
+      },
+      {
+        type: "text",
+        content:
+          "💡 *L'acteur Augustin Tshomba (CopperRoute DRC) est actuellement **suspendu**. Son convoi SM-2024-0893 cumule : panne GPS, déviation de route et retard de 21h. Un audit physique du chargement est fortement recommandé.*",
+      },
+    ],
+  },
+  {
+    triggers: [
+      "minerai",
+      "minéral",
+      "cobalt",
+      "cuivre",
+      "coltan",
+      "or",
+      "cassitérite",
+      "wolframite",
+      "répartition",
+      "mineraux",
+    ],
+    delay: 2000,
+    blocks: [
+      {
+        type: "text",
+        content:
+          "**Répartition des minerais tracés — Mars 2024** (212 transports · 71 500 tonnes) :",
+      },
+      {
+        type: "table",
+        headers: ["Minerai", "Part", "Tonnes est.", "Transports", "Tendance"],
+        rows: [
+          ["Cobalt", "34%", "24 310 t", "72", "📈 +8% vs fév."],
+          ["Cuivre", "28%", "20 020 t", "59", "📈 +3% vs fév."],
+          ["Coltan", "18%", "12 870 t", "38", "📉 -2% vs fév."],
+          ["Or", "8%", "5 720 t", "17", "📈 +12% vs fév."],
+          ["Cassitérite", "7%", "5 005 t", "15", "➡️ stable"],
+          ["Wolframite", "5%", "3 575 t", "11", "📉 -5% vs fév."],
+        ],
+      },
+      {
+        type: "text",
+        content:
+          "💡 *Le **Cobalt** reste le minéral dominant (+8%), avec 2 convois actifs GECAMINES Trans. L'**Or** affiche la croissance la plus forte (+12%), portée par la route Butembo → Kinshasa. Le Coltan recule légèrement (-2%) suite à la dégradation sécuritaire en zone Walikale.*",
+      },
+    ],
+  },
+  {
+    triggers: [
+      "gps",
+      "badge",
+      "équipement",
+      "tracker",
+      "signal",
+      "batterie",
+      "télématique",
+      "smartbadge",
+      "capteur",
+    ],
+    delay: 1900,
+    blocks: [
+      {
+        type: "text",
+        content:
+          "**Inventaire des équipements SmartBadge GPS/QR — état en temps réel :**",
+      },
+      {
+        type: "stats",
+        items: [
+          {
+            label: "Actifs",
+            value: "6",
+            sub: "60% du parc",
+            color: "green",
+          },
+          {
+            label: "En panne",
+            value: "1",
+            sub: "BGP-0512 · Lualaba",
+            color: "red",
+          },
+          {
+            label: "Inactifs",
+            value: "2",
+            sub: "≥7j sans signal",
+            color: "orange",
+          },
+          {
+            label: "En transit",
+            value: "1",
+            sub: "BGP-0234 · Tanganyika",
+            color: "blue",
+          },
+        ],
+      },
+      {
+        type: "table",
+        headers: ["Série", "Modèle", "Batterie", "Province", "Statut"],
+        rows: [
+          [
+            "BGP-0512",
+            "SmartBadge v2 (Queclink)",
+            "12% 🔋",
+            "Lualaba",
+            "⛔ En panne",
+          ],
+          [
+            "BGP-0099",
+            "SmartBadge v2 (Queclink)",
+            "20%",
+            "Maniema",
+            "⚪ Inactif",
+          ],
+          [
+            "BGP-0145",
+            "SmartBadge v2 (Queclink)",
+            "45%",
+            "Tanganyika",
+            "⚪ Inactif",
+          ],
+          [
+            "BGP-0671",
+            "SmartBadge v3 (Teltonika)",
+            "88%",
+            "Haut-Katanga",
+            "✅ Actif",
+          ],
+          [
+            "BGP-0558",
+            "SmartBadge v3 (Teltonika)",
+            "100% 🟢",
+            "Kinshasa",
+            "✅ Actif",
+          ],
+        ],
+      },
+      {
+        type: "text",
+        content:
+          "⚠️ **Action requise** : Le badge **BGP-0512** (assigné au convoi retardé SM-2024-0893) est en panne avec batterie à **12%**. C'est la cause directe de la perte de signal GPS signalée à 11h30. Remplacement urgent recommandé.",
+      },
+    ],
+  },
+  {
+    triggers: [
+      "statistique",
+      "mois",
+      "mars",
+      "performance",
+      "rapport",
+      "chiffre",
+      "indicateur",
+      "kpi",
+    ],
+    delay: 2500,
+    blocks: [
+      {
+        type: "text",
+        content:
+          "**Rapport de performance consolidé — Mars 2024** (données extraites de la BDD) :",
+      },
+      {
+        type: "stats",
+        items: [
+          {
+            label: "Transports réalisés",
+            value: "212",
+            sub: "+12.2% vs février",
+            color: "green",
+          },
+          {
+            label: "Tonnes transportées",
+            value: "71 500",
+            sub: "+13.1% vs février",
+            color: "green",
+          },
+          {
+            label: "Taux de livraison",
+            value: "94.3%",
+            sub: "-0.8pp vs fév.",
+            color: "blue",
+          },
+          {
+            label: "Alertes générées",
+            value: "47",
+            sub: "3 critiques ce mois",
+            color: "orange",
+          },
+        ],
+      },
+      {
+        type: "table",
+        headers: ["Province", "Transports", "Tonnes", "Alertes", "Score"],
+        rows: [
+          ["Haut-Katanga", "89", "28 400 t", "2", "🟢 96%"],
+          ["Lualaba", "64", "21 200 t", "3", "🟡 78%"],
+          ["Nord-Kivu", "38", "8 900 t", "1", "🟢 91%"],
+          ["Tanganyika", "21", "7 100 t", "0", "🟢 100%"],
+          ["Maniema", "15", "3 800 t", "1", "🟡 83%"],
+          ["Sud-Kivu", "12", "2 100 t", "0", "🟢 100%"],
+        ],
+      },
+      {
+        type: "text",
+        content:
+          "💡 *Haut-Katanga domine avec **42% du volume total**. La province Lualaba affiche le score le plus bas (78%), corrélé à l'acteur suspendu Augustin Tshomba (CopperRoute DRC) et ses 3 alertes associées.*",
+      },
+    ],
+  },
+  {
+    triggers: [
+      "fraude",
+      "suspicion",
+      "irrégularité",
+      "faux",
+      "poids",
+      "détournement",
+      "illégal",
+      "criminel",
+      "investigation",
+    ],
+    delay: 2100,
+    blocks: [
+      {
+        type: "text",
+        content:
+          "**Analyse des risques et détections d'irrégularités — SMART MINE RDC :**",
+      },
+      {
+        type: "list",
+        items: [
+          {
+            icon: "🔴",
+            text: "Anomalie de poids — SM-2024-0892 (Coltan, 3.2t)",
+            sub: "Écart +2.3t entre déclaré et mesuré · Poste Likasi · RÉSOLU le 28/03 à 09:15",
+          },
+          {
+            icon: "🟠",
+            text: "Déviation d'itinéraire — SM-2024-0893 (Cuivre, 28t)",
+            sub: "45km hors route officielle · Zone Kambove · EN COURS d'investigation",
+          },
+          {
+            icon: "🟠",
+            text: "Badge révoqué utilisé — BDG-0199",
+            sub: "Tentative d'accès Checkpoint Kipushi · Identité non identifiée · 28/03 10:05",
+          },
+          {
+            icon: "🟠",
+            text: "Cyberattaque potentielle — IP 41.243.56.88",
+            sub: "5 tentatives d'authentification échouées · Possible brute-force · 28/03 07:55",
+          },
+        ],
+      },
+      {
+        type: "text",
+        content: "**Score de risque opérationnel global : 🟠 MODÉRÉ-ÉLEVÉ**",
+      },
+      {
+        type: "text",
+        content:
+          "💡 *L'acteur Augustin Tshomba (CopperRoute DRC) est suspendu suite à l'anomalie de poids. Son convoi SM-2024-0893 fait l'objet d'une surveillance renforcée. Recommandation : audit physique immédiat + signalement à la Direction des Mines.*",
+      },
+    ],
+  },
+  {
+    triggers: [
+      "transporteur",
+      "acteur",
+      "chauffeur",
+      "société",
+      "gecamines",
+      "mintrans",
+      "goldsecure",
+      "copperoute",
+      "fiabilité",
+    ],
+    delay: 1700,
+    blocks: [
+      {
+        type: "text",
+        content: "**Analyse de fiabilité des transporteurs enregistrés :**",
+      },
+      {
+        type: "table",
+        headers: ["Société", "Transports", "Acteur", "Alertes", "Fiabilité"],
+        rows: [
+          ["GECAMINES Trans", "89", "✅ J.B. Mwamba", "1", "🟢 96%"],
+          ["MinTrans SARL", "45", "✅ P. Kabila", "0", "🟢 98%"],
+          ["CopperRoute DRC", "62", "🔴 A. Tshomba (suspendu)", "3", "🔴 72%"],
+          ["GoldSecure DRC", "28", "✅ E. Ndungu", "0", "🟢 100%"],
+          ["TinTrans Congo", "15", "✅ M. Banza", "0", "🟢 100%"],
+        ],
+      },
+      {
+        type: "text",
+        content:
+          "⚠️ **CopperRoute DRC** présente le taux de fiabilité le plus bas (**72%**) avec 3 alertes associées et l'acteur principal suspendu. Une révision de son accréditation est recommandée avant tout nouveau convoi autorisé.",
+      },
+    ],
+  },
+];
+
+export function getAIResponse(query: string): AIScriptedResponse {
+  const lower = query.toLowerCase();
+  const match = aiScriptedResponses.find((r) =>
+    r.triggers.some((t) => lower.includes(t)),
+  );
+  if (match) return match;
+
+  return {
+    triggers: [],
+    delay: 1200,
+    blocks: [
+      {
+        type: "text",
+        content:
+          "Je n'ai pas trouvé de données spécifiques pour cette requête dans la base **SMART MINE RDC**. Voici les analyses disponibles :",
+      },
+      {
+        type: "list",
+        items: [
+          {
+            icon: "📊",
+            text: "Résumé opérationnel",
+            sub: "État général des transports et alertes du jour",
+          },
+          {
+            icon: "🚚",
+            text: "Convois en route",
+            sub: "Suivi temps réel des 3 convois actifs",
+          },
+          {
+            icon: "🔴",
+            text: "Alertes & Anomalies",
+            sub: "5 alertes ouvertes dont 1 critique non résolue",
+          },
+          {
+            icon: "💎",
+            text: "Répartition des minerais",
+            sub: "212 transports · 71 500 tonnes ce mois",
+          },
+          {
+            icon: "📡",
+            text: "État des équipements GPS",
+            sub: "6 actifs · 1 en panne · 2 inactifs",
+          },
+          {
+            icon: "🔍",
+            text: "Détection de fraudes",
+            sub: "Score de risque actuel : Modéré-Élevé",
+          },
+        ],
+      },
+    ],
+  };
+}

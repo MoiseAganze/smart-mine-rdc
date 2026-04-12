@@ -35,8 +35,8 @@ export default function Login() {
       {/* Left — branding panel */}
       <div className="hidden lg:flex lg:w-1/2 flex-col justify-between bg-linear-to-br from-slate-900 via-primary-950/40 to-slate-900 border-r border-slate-800 p-12">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-600">
-            <Mountain className="h-5 w-5 text-white" />
+          <div className="flex items-center justify-center rounded-xl">
+            <img src="/logo.png" alt="Logo" className="w-32" />
           </div>
           <div>
             <p className="text-sm font-bold text-slate-100 leading-none">

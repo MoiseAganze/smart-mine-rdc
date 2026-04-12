@@ -11,7 +11,6 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
-  Mountain,
   Shield,
 } from "lucide-react";
 import { useAppStore } from "@/store/useAppStore";

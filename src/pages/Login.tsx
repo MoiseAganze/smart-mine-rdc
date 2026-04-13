@@ -214,10 +214,28 @@ export default function Login() {
             </button>
           </form>
 
-          <div className="rounded-xl border border-slate-700/50 bg-slate-800/40 p-4 space-y-2">
+          <div className="rounded-xl border border-slate-700/50 bg-slate-800/40 p-4 space-y-3">
             <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
               Accès démo
             </p>
+            <button
+              type="button"
+              onClick={async () => {
+                setMatricule("ADM-2024-001");
+                setPassword("SmartMine@2024");
+                setError("");
+                setLoading(true);
+                await new Promise((r) => setTimeout(r, 400));
+                const ok = login("ADM-2024-001", "SmartMine@2024");
+                setLoading(false);
+                if (ok) navigate("/");
+              }}
+              disabled={loading}
+              className="flex w-full items-center justify-center gap-2 rounded-lg border border-primary-600/40 bg-primary-600/10 px-3 py-2 text-xs font-semibold text-primary-400 transition-all hover:bg-primary-600/20 hover:border-primary-500/60 disabled:opacity-50 cursor-pointer"
+            >
+              <LogIn className="h-3.5 w-3.5" />
+              Connexion auto (admin)
+            </button>
             <div className="space-y-1.5 text-xs text-slate-500">
               <div className="flex justify-between">
                 <span className="font-mono text-slate-400">ADM-2024-001</span>
